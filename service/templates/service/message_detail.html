@@ -1,0 +1,28 @@
+{% extends 'service/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">Тема: {{ object.subject }}</div>
+                    <div class="card-body">
+                        Тело: {{ object.body }}
+
+                    </div>
+                    <div class="card-footer">
+                        Активация: {{ object.is_active }}
+                    </div>
+                    <div class="">
+                    <div class="btn-group">
+                        <a href="{% url 'service:edit_message' object.pk %}"
+                           class="btn btn-sm btn-outline-secondary">Изменить</a>
+                        <a href="{% url 'service:delete_message' object.pk %}"
+                           class="btn btn-sm btn-outline-danger">Удалить</a>
+                    </div>
+                </div>
+
+
+                </div>
+            </div>
+        </div>
+{% endblock %}
