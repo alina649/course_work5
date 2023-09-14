@@ -16,7 +16,7 @@ class MessageAdmin(admin.ModelAdmin):
 
 @admin.register(Mailing)
 class MailingAdmin(admin.ModelAdmin):
-    list_display = ('message', 'mailing_time', 'frequency', 'status',)
+    list_display = ('message', 'frequency', 'status',)
 
 
 @admin.register(MailingLogs)

@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'service'
+    'service',
+
 ]
 
 MIDDLEWARE = [
@@ -78,9 +79,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'course_work_5', # Название БД
+        'NAME': 'cw_5', # Название БД
         'USER': 'postgres', # Пользователь для подключения
-        'PASSWORD': '123406@aLINA', # Пароль для этого пользователя
+        'PASSWORD': '1234', # Пароль для этого пользователя
         'PORT': 5432,
     }
 }
@@ -130,3 +131,15 @@ STATICFILES_DIGS = (
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_SSL = True
+EMAIL_HOST = "smtp.yandex.ru"
+EMAIL_HOST_USER = 'yukiniora@yandex.ru'
+EMAIL_HOST_PASSWORD = 'vvtzumslzqlsyrks'
+EMAIL_PORT = 465
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER
+
