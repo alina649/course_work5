@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 
+from service.forms import MailingForm
 from service.models import Client, Message, Mailing
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 
@@ -87,4 +88,19 @@ class MessageUpdateView(UpdateView):
 
 
 class MailingListView(ListView):
+    model = Mailing
+
+
+class MailingCreateView(CreateView):
+    model = Mailing
+    form_class = MailingForm
+    success_url = reverse_lazy('service:mailing_list')
+
+    def get_form_kwargs(self):
+        kwargs = super(MailingCreateView, self).get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
+
+
+class MailingDetailView(DetailView):
     model = Mailing
