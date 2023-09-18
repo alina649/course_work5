@@ -1,0 +1,4 @@
+{% autoescape off %}
+Перейдите по ссылке, чтобы подтвердить почту:
+http://{{ domain }}{% url 'users:activate' key %}
+{% endautoescape %}

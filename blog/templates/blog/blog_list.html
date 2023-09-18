@@ -3,11 +3,11 @@
 
 
 <div class="col-12 mb-5">
-        <a class="btn btn-outline-info" href="{% url 'service:create_mailing' %}">Добавить рассылку</a>
+        <a class="btn btn-outline-primary" href="{% url 'service:create_message' %}">Добавить статью</a>
 </div>
 
 <div class="my-3 p-3 bg-white rounded box-shadow">
-        <h6 class="border-bottom border-gray pb-2 mb-0">Рассылки</h6>
+        <h6 class="border-bottom border-gray pb-2 mb-0">Сообщения</h6>
         {% for object in object_list %}
         <div class="media text-muted pt-3">
           <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
@@ -16,7 +16,7 @@
               <strong class="text-gray-dark">{{ object.subject }}</strong>
               <div class="">
                     <div class="btn-group">
-                        <a href="{% url 'service:mailing_view' object.pk %}"
+                        <a href="{% url 'service:view' object.pk %}"
                            class="btn btn-sm btn-outline-secondary">Просмотр</a>
                     </div>
                 </div>
