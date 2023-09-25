@@ -4,19 +4,26 @@
     <div class="row">
         <div class="col-6">
             <div class="card">
-                <div class="card-header">Тема: {{ message.subject }}</div>
+                <div class="card-header">Тема: {{ object.title }}</div>
                     <div class="card-body">
-                        Тело: {{ object.client }}
+                        Начало: {{ object.commence_time }}
 
                     </div>
                     <div class="card-footer">
-                        Активация: {{ object.is_active }}
+                        Статус: {{ object.status }}
                     </div>
+                    <div class="card-footer">
+                        Переодичность: {{ object.frequency }}
+                    </div>
+                    <div class="card-footer">
+                        Автор: {{ object.owner }}
+                    </div>
+
                     <div class="">
                     <div class="btn-group">
-                        <a href="{% url 'service:edit_message' object.pk %}"
+                        <a href="{% url 'service:edit_mailing' object.pk %}"
                            class="btn btn-sm btn-outline-secondary">Изменить</a>
-                        <a href="{% url 'service:delete_message' object.pk %}"
+                        <a href="{% url 'service:delete_mailing' object.pk %}"
                            class="btn btn-sm btn-outline-danger">Удалить</a>
                     </div>
                 </div>
@@ -25,4 +32,7 @@
                 </div>
             </div>
         </div>
+<div class="col-12 mb-5"  style="margin: 10px">
+        <a class="btn btn-danger" href="">Разослать сообщение</a>
+</div>
 {% endblock %}

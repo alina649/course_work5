@@ -3,7 +3,7 @@ from . import views
 from service.apps import ServiceConfig
 from .views import ClientListView, ClientDetailView, ClientCreateView, ClientDeleteView, ClientUpdateView, \
     MessageListView, MessageCreateView, MessageDetailView, MessageDeleteView, MessageUpdateView, MailingListView, \
-    MailingCreateView, MailingDetailView
+    MailingCreateView, MailingDetailView, MailingUpdateView, MailingDeleteView, MailingLogsView
 
 app_name = ServiceConfig.name
 
@@ -22,5 +22,9 @@ urlpatterns = [
 
     path('mailing/', MailingListView.as_view(), name='mailing_list'),
     path('create_mailing/', MailingCreateView.as_view(), name='create_mailing'),
-    path('mailingView/<int:pk>/', MailingDetailView.as_view(), name='mailing_view')
+    path('mailingView/<int:pk>/', MailingDetailView.as_view(), name='mailing_view'),
+    path('mailingEdit/<int:pk>/', MailingUpdateView.as_view(), name='edit_mailing'),
+    path('mailingDelete/<int:pk>/', MailingDeleteView.as_view(), name='delete_mailing'),
+
+    path('mailinglogs', MailingLogsView.as_view(), name='mailinglogs'),
 ]

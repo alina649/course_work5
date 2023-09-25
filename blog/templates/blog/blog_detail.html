@@ -1,16 +1,14 @@
 {% extends 'service/base.html' %}
 {% block content %}
-{% load media_path %}
 <div class="col-12">
     <div class="row">
         <figure class="figure">
-                 <img src="{{ blog.preview|media_path }}" class="img-fluid" alt="{{ blog.image }} 300x200" width="300" height="200">
             </figure>
         <div class="col-6">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title>">
-                        Информация о продукте
+                        Блог
                     </h3>
                 </div>
                 <div class="card-body">
@@ -20,7 +18,7 @@
                             <td>{{ blog.title }}</td>
                         </tr>
                         <tr>
-                            <td>Информация</td>
+                            <td>Текст</td>
                             <td>{{ blog.description }}</td>
                         </tr>
                     </table>
