@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'django-insecure-)4a=v36jh8#zy2p7$9%7q0yht5u9dixn#e&(r-s-@218+lwd-$
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -41,6 +39,8 @@ INSTALLED_APPS = [
     'service',
     'users',
     'blog',
+
+    'django_apscheduler',
 
 ]
 
@@ -74,20 +74,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'cw_5', # Название БД
-        'USER': 'postgres', # Пользователь для подключения
-        'PASSWORD': '1234', # Пароль для этого пользователя
+        'NAME': 'cw_5',  # Название БД
+        'USER': 'postgres',  # Пользователь для подключения
+        'PASSWORD': '1234',  # Пароль для этого пользователя
         'PORT': 5432,
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -107,7 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -118,7 +115,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -141,6 +137,8 @@ LOGIN_URL = '/users/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+
 EMAIL_HOST = "smtp.yandex.ru"
 EMAIL_HOST_USER = 'yukiniora@yandex.ru'
 EMAIL_HOST_PASSWORD = 'vvtzumslzqlsyrks'
@@ -150,3 +148,4 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
 
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"

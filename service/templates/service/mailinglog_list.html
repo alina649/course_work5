@@ -1,0 +1,45 @@
+{% extends 'service/base.html' %}
+
+{% block content %}
+    <div>
+        <div class="row mt-2">
+            <div class="col m-2"><br>
+                <h2 align="center">Список логов рассылки</h2>
+
+                    <br>
+                    <br>
+                    <table class="table">
+                        <thead>
+                        <tr class="table-success">
+                            <th>№</th>
+                            <th>Рассылка</th>
+                            <th>Время последней попытки</th>
+                            <th>Статус попытки</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for object in object_list %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ object.mailing.title }}</td>
+                                <td>{{ object.timestamp }}</td>
+
+
+                                {% if object.status == 'success' %}
+                                    <td class="text-success">{{ object.status }}</td>
+                                {% elif object.status == 'mistake' %}
+                                    <td class="text-danger">{{ object.status }}</td>
+                                {% endif %}
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                <br>
+
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

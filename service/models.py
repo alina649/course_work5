@@ -1,5 +1,7 @@
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from datetime import time, datetime
 
 NULLABLE = {'blank': True, 'null': True}
 
@@ -36,42 +38,49 @@ class Message(models.Model):
 class Mailing(models.Model):
     """Рассылка (настройки)"""
 
-    FREQUENCY_CHOICE = (
+    FREQUENCY_CHOICES = [
         ('daily', 'ежедневно'),
-        ('weekly', "еженедельно"),
-        ('monthly', "ежемесячно")
-    )
+        ('weekly', 'еженедельно'),
+        ('monthly', 'ежемесячно'),
+    ]
 
-    STATUS_CHOICE = (
-        ('completed', "завершено"),
-        ('created', "создано"),
-        ('commenced', "запущено")
-    )
+    STATUS_CHOICES = [
+        ('created', 'создана'),
+        ('running', 'запущена'),
+        ('completed', 'завершена'),
+    ]
 
-    client = models.ManyToManyField(Client, verbose_name='Клиенты', blank=False)
-    message = models.ForeignKey(Message, verbose_name='Письма', on_delete=models.CASCADE, blank=False,
-                                limit_choices_to={'is_active': True})
+    clients = models.ManyToManyField(Client, verbose_name='Клиенты', blank=False)
 
-    commence_time = models.DateTimeField(verbose_name='Старт рассылки')
-    completion_time = models.DateTimeField(verbose_name='Завершение рассылки')
+    start_time = models.TimeField(default=timezone.now, verbose_name='Время запуска рассылки')
+    next_start = models.DateField(default=timezone.now, verbose_name='дата запуска рассылки')
+    stop_time = models.TimeField(default=timezone.now, verbose_name='Время завершения рассылки')
 
-    frequency = models.CharField(choices=FREQUENCY_CHOICE, default='daily', max_length=10, verbose_name='Периодичность рассылки')
-    status = models.CharField(choices=STATUS_CHOICE, max_length=10, default='created', verbose_name='Статус рассылки')
+    frequency = models.CharField(max_length=20, choices=FREQUENCY_CHOICES, verbose_name='периодичность')
+    status = models.CharField(choices=STATUS_CHOICES, max_length=10, default='created', verbose_name='Статус рассылки')
+
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, verbose_name='владелец', **NULLABLE)
+
+    title = models.CharField(max_length=200, verbose_name='Название рассылки')
+    body = models.TextField(verbose_name='Тело письма')
+    is_active = models.BooleanField(default=True, verbose_name='Статус активности')
 
     def get_status(self):
-        now = timezone.now()
-        if self.commence_time < now < self.completion_time:
-            self.status = "commenced"
-        elif now > self.completion_time:
-            self.status = "completed"
-        self.save()
+        now = datetime.now().time()
+        print(self.start_time)
+        print(now)
+        print(self.stop_time)
+        if self.start_time < now < self.stop_time:
+            self.status = "running"
+
+            self.save()
         return self.status
 
     def __str__(self):
-        return f'{self.message}: {self.frequency}'
+        return f'{self.frequency}'
 
     class Meta:
-        verbose_name = 'Рассылка'
+        verbose_name ='Рассылка'
         verbose_name_plural = 'Рассылки'
 
 
@@ -90,7 +99,7 @@ class MailingLogs(models.Model):
 
     mailing = models.ForeignKey(Mailing, verbose_name='Рассылка', on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время')
-    status = models.CharField(choices=STATUS_CHOICE, max_length=20, verbose_name='Статус попытки рассылки')
+    status = models.CharField(choices=STATUS_CHOICE, default='success', max_length=20, verbose_name='Статус попытки рассылки')
     response = models.CharField(verbose_name='Ответ почтового сервера')
 
     def __str__(self):
