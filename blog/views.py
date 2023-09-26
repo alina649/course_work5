@@ -1,8 +1,15 @@
+from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from pytils.translit import slugify
 
 from blog.models import Blog
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+
+from service.models import Mailing
+
+from random import sample
+
+from users.models import User
 
 
 class BlogCreateView(CreateView):
@@ -34,6 +41,7 @@ class BlogDetailView(DetailView):
     model = Blog
 
     def get_object(self, queryset=None):
+        """Создаем счетчик просмотров"""
         self.object = super().get_object(queryset)
         self.object.views_count += 1
         self.object.save()
@@ -60,3 +68,21 @@ class BlogDelete(DeleteView):
 
     model = Blog
     success_url = reverse_lazy('blog:list')
+
+
+def HomeIndex(request):
+    """Домашняя страница"""
+    mailing_count = Mailing.objects.all().count()
+    active_count = Mailing.objects.filter(status=Mailing.STATUS_CHOICES == 'created').count()
+    count_article = User.objects.all().count()
+    article_all = Blog.objects.all()
+
+    min_article = min(3, count_article)
+    article = sample(list(article_all), min(3, len(list(article_all))))
+
+    context = {
+        'mailing_count': mailing_count,
+        'active_count': active_count,
+        'article': article
+    }
+    return render(request, 'blog/home.html', context)

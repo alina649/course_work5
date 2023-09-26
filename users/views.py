@@ -1,10 +1,11 @@
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.mail import send_mail
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView, DetailView
 from django.conf import settings
-from users.forms import UserRegisterForm, UserProfileForm
+from users.forms import UserRegisterForm, UserProfileForm, ManagerUpdateForm
 from users.models import User
 
 from users.utils import confirm_user_email, create_secret_key
@@ -15,6 +16,23 @@ class RegisterView(CreateView):
     form_class = UserRegisterForm
     template_name = 'users/register.html'
     success_url = reverse_lazy('users:login')
+
+
+class UserManagerUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    """Редактирование Менеджером статуса пользователя """
+    model = User
+    form_class = ManagerUpdateForm
+    success_url = reverse_lazy('users:user_list')
+    permission_required = 'users.block_another_user'
+
+
+class UserListView(ListView):
+    model = User
+
+
+class UsersDetailView(DetailView):
+    model = User
+    template_name = "users/users_detail.html"
 
 
 class UserUpdateView(UpdateView):
