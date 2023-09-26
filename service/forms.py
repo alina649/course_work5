@@ -10,4 +10,8 @@ class MailingForm(forms.ModelForm):
                   'start_time', 'stop_time', 'frequency', 'status', 'clients')
 
 
+class ManagerUpdateForm(forms.ModelForm):
 
+    class Meta:
+        model = Mailing
+        fields = ('status',)

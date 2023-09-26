@@ -9,7 +9,7 @@ NULLABLE = {'blank': True, 'null': True}
 class Client(models.Model):
     """Клиент сервиса"""
 
-    email = models.EmailField(verbose_name='почта', unique=True)
+    email = models.CharField(verbose_name='почта', unique=True)
     full_name = models.CharField(max_length=255, verbose_name='ФИО')
     comment = models.TextField(verbose_name='комментарий', **NULLABLE)
 
@@ -19,20 +19,6 @@ class Client(models.Model):
     class Meta:
         verbose_name = 'Клиент'
         verbose_name_plural = 'Клиенты'
-
-
-class Message(models.Model):
-    """Сообщение для рассылки"""
-    subject = models.CharField(max_length=200, verbose_name='Тема письма')
-    body = models.TextField(verbose_name='Тело письма')
-    is_active = models.BooleanField(default=True, verbose_name='Активно')
-
-    def __str__(self):
-        return f'Тема {self.subject}, текст письма {self.body}'
-
-    class Meta:
-        verbose_name = "Письмо"
-        verbose_name_plural = 'Письма'
 
 
 class Mailing(models.Model):
@@ -50,7 +36,7 @@ class Mailing(models.Model):
         ('completed', 'завершена'),
     ]
 
-    clients = models.ManyToManyField(Client, verbose_name='Клиенты', blank=False)
+    clients = models.ManyToManyField(Client, verbose_name='подписчики')
 
     start_time = models.TimeField(default=timezone.now, verbose_name='Время запуска рассылки')
     next_start = models.DateField(default=timezone.now, verbose_name='дата запуска рассылки')

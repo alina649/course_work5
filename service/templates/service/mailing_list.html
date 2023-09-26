@@ -2,9 +2,15 @@
 {% block content %}
 
 
+{% if user.status == 'blocked' or not user.is_authenticated %}
+<div class="col-12 mb-5">
+        <a class="btn btn-outline-primary" href="">Вы не можете добавить рассылку</a>
+</div>
+{% else%}
 <div class="col-12 mb-5">
         <a class="btn btn-outline-info" href="{% url 'service:create_mailing' %}">Добавить рассылку</a>
 </div>
+{% endif %}
 
 <div class="my-3 p-3 bg-white rounded box-shadow">
         <h6 class="border-bottom border-gray pb-2 mb-0">Рассылки</h6>

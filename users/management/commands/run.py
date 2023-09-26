@@ -35,7 +35,7 @@ class Command(BaseCommand):
 
         scheduler.add_job(
             send_mailing, # изменить на свою функцию запуска сообщений
-            trigger=CronTrigger(hour="0", minute="32", second="00"),  # Run every day at 15.56 local time
+            trigger=CronTrigger(hour="19", minute="15", second="00"),  # Run every day at 15.56 local time
             id="my_job",  # The `id` assigned to each job MUST be unique
             max_instances=1,
             replace_existing=True,

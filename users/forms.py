@@ -15,15 +15,21 @@ class StyleFormMixin:
 class UserRegisterForm(StyleFormMixin, UserCreationForm):
     class Meta:
         model = User
-        fields = ["email", "phone", "country", "avatar", "password1", "password2"]
+        fields = ["email", "password1", "password2"]
 
 
 class UserProfileForm(StyleFormMixin, UserChangeForm):
     class Meta:
         model = User
-        fields = ["email", "password", "first_name", "last_name", "phone", "country", "avatar"]
+        fields = ["email", "password", "first_name", "last_name"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.fields['password'].widget = forms.HiddenInput()
+
+
+class ManagerUpdateForm(StyleFormMixin, UserChangeForm):
+    class Meta:
+        model = User
+        fields = ["email", "status",]

@@ -6,8 +6,7 @@
             <div class="card">
                 <div class="card-header">Тема: {{ object.title }}</div>
                     <div class="card-body">
-                        Начало: {{ object.commence_time }}
-
+                        Тело сообщения:{{ object.body }}
                     </div>
                     <div class="card-footer">
                         Статус: {{ object.status }}
@@ -21,10 +20,16 @@
 
                     <div class="">
                     <div class="btn-group">
+                        {% if perms.mailsender.change_mailing_status %}
+                    <a href="{% url 'service:manager_mailing_update' object.id %}"
+                       class="btn btn-sm btn-outline-secondary">Редактировать статус рассылки</a>
+                    {% endif %}
+                        {% if user.is_authenticated and object.owner == user%}
                         <a href="{% url 'service:edit_mailing' object.pk %}"
                            class="btn btn-sm btn-outline-secondary">Изменить</a>
                         <a href="{% url 'service:delete_mailing' object.pk %}"
                            class="btn btn-sm btn-outline-danger">Удалить</a>
+                          {% endif %}
                     </div>
                 </div>
 
@@ -32,7 +37,4 @@
                 </div>
             </div>
         </div>
-<div class="col-12 mb-5"  style="margin: 10px">
-        <a class="btn btn-danger" href="">Разослать сообщение</a>
-</div>
 {% endblock %}

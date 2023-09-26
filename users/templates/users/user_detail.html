@@ -11,6 +11,10 @@
             <div class="card-body">
                 <figure class="figure">
             </figure>
+                {% if user.status == 'blocked' %}
+                <p class="card-text">ВЫ ЗАБЛОКИРОВАНЫ
+                {% else%}
+
                 {% if object.email_confirmed%}
                     <form method="post">
                     {%  csrf_token %}
@@ -23,6 +27,8 @@
                         <h3>
                        </h3>
                       {% endif %}<br>
+                {% endif %}
+
 
             </div>
         </div>
